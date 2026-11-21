@@ -1,0 +1,3 @@
+Task: Write Playwright API tests in P4/tests/contract.spec.ts. Schema checks: the answers of GET /api/articles/:slug and GET /api/user have the shape that API.md gives, checked with toMatchObject and expect.any. Auth tests: no token, a wrong token, and changing someone else's article. After the file, write one line per test: what it checks.
+Material: @P4/API.md @P4/tests/example.spec.ts Send requests with the request fixture, like this example.
+Rules: Write the tests from API.md only. Do not read the app's code in P4/app. Do not run the tests. Check both the response shape and the exact field types from API.md. Use toMatchObject with expect.any, and also check the key list so missing or extra fields are caught.
