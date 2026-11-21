@@ -1,0 +1,11 @@
+{
+  "about": "Practice faults for the Conduit practice app. Switch one on with CONDUIT_FAULT=<id>, then run your tests. Leave CONDUIT_FAULT empty for the normal app. kind \"detect\": a good suite fails. kind \"robust\": a good suite stays green.",
+  "faults": [
+    { "id": "F1", "kind": "detect", "title": "Opening an article gives a server error (500)", "method": "GET", "path": "^/api/articles/(?!feed$)[^/]+$", "status": 500, "body": { "errors": { "server": ["unexpected error"] } } },
+    { "id": "F2", "kind": "detect", "title": "The article answer has no body text", "method": "GET", "path": "^/api/articles/(?!feed$)[^/]+$", "remove": ["article.body"] },
+    { "id": "F3", "kind": "detect", "title": "The article answer has a different title", "method": "GET", "path": "^/api/articles/(?!feed$)[^/]+$", "set": { "article.title": "A different title" } },
+    { "id": "F4", "kind": "detect", "title": "The comments list is always empty", "method": "GET", "path": "^/api/articles/[^/]+/comments$", "set": { "comments": [] } },
+    { "id": "F5", "kind": "robust", "title": "The article answer comes 3 seconds late", "method": "GET", "path": "^/api/articles/(?!feed$)[^/]+$", "delayMs": 3000 },
+    { "id": "F6", "kind": "detect", "title": "Posting a comment is refused (422) and nothing is saved", "method": "POST", "path": "^/api/articles/[^/]+/comments$", "status": 422, "body": { "errors": { "body": ["can't be blank"] } } }
+  ]
+}

@@ -1,0 +1,3 @@
+Task: Write at least 6 Playwright API tests for articles in the Conduit API: create, read, change and delete an article. At least 3 positive and at least 3 negative tests. Save them in P4/tests/api.spec.ts. After the file, write one line per test: what it checks.
+Material: @P4/API.md @P4/tests/example.spec.ts Send requests with the request fixture, like this example.
+Rules: Write the tests from API.md only. Do not read the app's code in P4/app. Do not run the tests. Check both the status code and the response body. Don't only verify that the request succeeds or fails, make sure the response contains the expected article data or error message from API.md.

@@ -1,0 +1,9 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+last-run/
+.playwright-mcp/
+materials/
+.env
+app/conduit.db
