@@ -1,0 +1,4 @@
+Changes: In @P4/tests/profile-follow/follow-author.spec.ts: The test checks the follow/unfollow button state, but it uses a shared practice user. It should create its own user through the API and verify that the follow state persists after a reload.
+New tests: Add more tests for the comments section in P4/tests/comments.spec.ts. Only one test currently checks comments. Add API tests to verify that a posted comment is saved and appears in the comments list with the correct content and author. Follow API.md and do not change existing tests. Keep the existing follow test changes, and apply "do not change existing tests" only to the other tests.
+Material: @P4/API.md @P4/tests/e2e.spec.ts Make users and data by API, and clean up, like these tests.
+Rules: Write the tests from API.md only. Do not read the app's code in P4/app. Change nothing else. Do not run the tests.

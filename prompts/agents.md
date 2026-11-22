@@ -1,0 +1,3 @@
+Task: First use the playwright-test-planner agent to plan tests for the profile page and following an author. Save the plan as specs/profile-follow.md. Then use the playwright-test-generator agent to write one test for each scenario in the plan, in the folder tests/profile-follow/.
+Material: Start on the page /profile/practice-author. For steps that need a signed-in user, use a practice user from README.md.
+Rules: Plan at most 2 short scenarios, with at most 5 steps each. Do not change any other test file. Do not run the test suite. Each test must verify the actual result, not just that a success message appears on the screen.
