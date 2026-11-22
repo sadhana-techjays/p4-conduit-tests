@@ -37,3 +37,33 @@ Rules: Use actions/checkout@v6, actions/setup-node@v6 and actions/upload-artifac
   - Lines 25–26: Sets CI: true to let Playwright know the tests are running on a CI computer.
   - Lines 28–30: Uploads the HTML test report to GitHub, even if the tests fail (if: always()).
   - Lines 31–34: Names the report playwright-report, uploads the report folder, and keeps it for 30 days.
+
+## 5. The first run on GitHub
+- **Run:** Add the CI workflow · **Result:** Green tick · **Tests:** 22 tests passed
+- **The report (artifact):** playwright-report is listed under Artifacts: Yes
+
+## 6. A red run on purpose
+- **The change:** `tests/example.spec.ts` line 6, `toBe(200)` → `toBe(201)`
+- **My prediction:** The "Run Playwright tests" step will turn red. The test expects 201 on line 6, but GET /api/tags should return 200, not 201. Because the status check is wrong, that test will fail even if the API is working correctly.
+- **What GitHub showed:** Expected: 201 · Received: 200
+
+## 7. Fixed, and green again
+- **The fix:** line 6 back to `toBe(200)` · **Run:** Fix the expected status · **Result:** green tick, 22 passed (3.4s)
+
+## 8. Review notes for my other AI-written tests (written while CI ran)
+The API checklist: status · body · shape · negative cases (a refused request changes nothing) · own test data.
+Monday's and Tuesday's tests that I did not review in depth on those days. Each one: kept, changed or removed, and why.
+
+### Monday: `tests/api.spec.ts`
+- "creates an article with valid data and a token (positive)": **changed**, because it should make a GET request after creating the article to confirm that it was saved with the correct details.
+- "rejects creating an article without a token (negative)": **changed**, because it checks 401, but doesn't verify that no article was created. Add a GET or another check to confirm nothing was saved.
+- "reads an existing article by its slug (positive)": **kept**, because it creates its own article and checks the GET response for the correct details.
+- "returns 404 for an article that does not exist (negative)": **kept**, because it checks that requesting a non-existing article returns 404 with the correct error message.
+- "deletes an article as its author (positive)": **kept**, because it checks 204 and an empty response, then confirms the article is deleted by checking for 404.
+- "rejects deleting an article without a token (negative)": **changed**, because it checks 401, but doesn't confirm the article still exists. Add a GET request to verify that the article was not deleted.
+
+### Tuesday: `tests/contract.spec.ts`
+- "GET /api/user answers the User shape from API.md": **kept**, because it checks the status, shape, field types, exact key list, and uses its own user. It covers the API checklist well.
+- "GET /api/user with no token answers 401 "token is missing"": **kept**, because it checks the 401 status, error message, and response shape (errors). Good negative test.
+- "GET /api/user with a wrong token answers 401 "token is invalid"": **kept**, because it checks the 401 status, correct error message, and response shape. Good coverage for an invalid token.
+- "PUT /api/articles/:slug by someone else's account answers 403": **changed**, because it checks the 403 status, error message, and shape, but it doesn't prove the article stayed unchanged. Add a GET after the failed update and verify the title is still the original one.
